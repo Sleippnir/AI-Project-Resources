@@ -1,7 +1,7 @@
 
 # Action Plan for AI Interviewer Agent Data Pipeline
 
-## 1. Target MongoDB Schema (`questions` collection)
+## 1. Sample Target MongoDB Schema (`questions` collection)
 
 ```json
 {
