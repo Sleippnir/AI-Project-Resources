@@ -107,4 +107,7 @@ db.questions.findOne({"_id": ObjectId("...")})
 4. Implement LLM integration for rubric generation
 5. Create indexing strategy
 6. Build query interface for agent integration
+
+## Sources
+[*HR Interview Questions and Ideal Answers*](https://www.kaggle.com/datasets/aryan208/hr-interview-questions-and-ideal-answers)
 ```
