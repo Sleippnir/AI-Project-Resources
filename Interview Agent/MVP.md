@@ -16,6 +16,7 @@
 
 **US-001 — Development Environment Setup**
 **As a developer**, I want a GitHub repo with modular structure **so that** the team can collaborate and containerize easily.
+
 **Acceptance Criteria**
 
 * Repo contains backend, frontend, infra folders.
@@ -36,6 +37,7 @@
 
 **US-010 — Define Role & JD**
 **As a manager**, I want to define a role with JD text **so that** the interview context is aligned with the position.
+
 **Acceptance Criteria**
 
 * Role stored in DB with title + description.
@@ -48,6 +50,7 @@
 
 **US-011 — Seed Question Bank**
 **As a manager**, I want predefined questions per role **so that** I can use them to build interviews.
+
 **Acceptance Criteria**
 
 * DB contains seed sets (5–10 per role).
@@ -61,6 +64,7 @@
 
 **US-012 (Optional) — Kaggle Dataset Preload**
 **As a system**, I want to preload Kaggle questions/answers **so that** suggested questions appear during interview creation.
+
 **Acceptance Criteria**
 
 * Kaggle set imported into DB.
@@ -78,6 +82,7 @@
 
 **US-020 — Interviewer Persona Prompt**
 **As a system designer**, I want a baseline interviewer prompt **so that** the LLM behaves consistently across interviews.
+
 **Acceptance Criteria**
 
 * Prompt defines tone, style, follow-up rules.
@@ -91,6 +96,7 @@
 
 **US-021 — Evaluator Persona Prompt**
 **As a system designer**, I want an evaluator prompt + rubric **so that** candidate responses can be scored consistently.
+
 **Acceptance Criteria**
 
 * Rubric with 1–5 scale.
@@ -104,6 +110,7 @@
 
 **US-022 — Version Pinning**
 **As a system**, I want prompt/template versions pinned **so that** interviews are reproducible.
+
 **Acceptance Criteria**
 
 * Interview rows log `prompt_versions_used`.
@@ -119,6 +126,7 @@
 
 **US-030 — Candidate Authentication**
 **As a candidate**, I want to join via invite token **so that** I can securely start the interview.
+
 **Acceptance Criteria**
 
 * Token required.
@@ -131,6 +139,7 @@
 
 **US-031 — Candidate Answers by Voice**
 **As a candidate**, I want to answer via microphone **so that** my spoken responses are transcribed.
+
 **Acceptance Criteria**
 
 * Audio → STT → text.
@@ -144,6 +153,7 @@
 
 **US-032 — Interviewer LLM Responds**
 **As a candidate**, I want natural interviewer prompts **so that** interview feels real.
+
 **Acceptance Criteria**
 
 * LLM uses interviewer persona.
@@ -155,6 +165,7 @@
 
 **US-033 — TTS Playback**
 **As a candidate**, I want to hear interviewer questions **so that** it’s voice-based.
+
 **Acceptance Criteria**
 
 * LLM → TTS → audio out.
@@ -165,6 +176,7 @@
 
 **US-034 — Text Input Fallback**
 **As a candidate**, I want textbox fallback **so that** I can continue if mic fails.
+
 **Acceptance Criteria**
 
 * Text stored like STT.
@@ -179,6 +191,7 @@
 
 **US-040 — Orchestrate Turns**
 **As the system**, I want to manage turns **so that** Q\&A flows correctly.
+
 **Acceptance Criteria**
 
 * Candidate turn saved.
@@ -190,6 +203,7 @@
 
 **US-041 — Store Interview Chunks**
 **As the system**, I want to persist chunks **so that** transcript can be built.
+
 **Acceptance Criteria**
 
 * Chunks have round, speaker, text.
@@ -200,6 +214,7 @@
 
 **US-042 — Finalize Interview**
 **As the system**, I want transcript aggregated **so that** a clean version exists.
+
 **Acceptance Criteria**
 
 * Transcript stored.
@@ -215,6 +230,7 @@
 
 **US-050 — Run Evaluator LLM**
 **As the system**, I want to send transcript to evaluator **so that** structured scoring is generated.
+
 **Acceptance Criteria**
 
 * JSON evaluation returned.
@@ -226,6 +242,7 @@
 
 **US-051 — Attach Evaluation to Interview**
 **As a manager**, I want transcript + evaluation together **so that** I can review easily.
+
 **Acceptance Criteria**
 
 * Transcript + evaluation in one view.
@@ -240,6 +257,7 @@
 
 **US-060 — List of Interviews**
 **As a manager**, I want a list of past interviews **so that** I can navigate results.
+
 **Acceptance Criteria**
 
 * Table view with candidate name, role, date.
@@ -250,6 +268,7 @@
 
 **US-061 — Transcript & Evaluation View**
 **As a manager**, I want detail page **so that** I can review transcript + evaluation.
+
 **Acceptance Criteria**
 
 * Full transcript displayed.
@@ -266,6 +285,7 @@
 
 **US-070 — Presentation Deck**
 **As a team**, I want slides **so that** we can present MVP clearly.
+
 **Acceptance Criteria**
 
 * Includes system overview + demo script.
@@ -276,6 +296,7 @@
 
 **US-071 — Containerization**
 **As a team**, I want Dockerized services **so that** the app runs on any machine.
+
 **Acceptance Criteria**
 
 * Backend + frontend dockerized.
@@ -287,6 +308,7 @@
 
 **US-072 — Dry-Run Demo**
 **As a team**, I want a practice run **so that** Demo Day is smooth.
+
 **Acceptance Criteria**
 
 * Candidate interview runs start to finish.
