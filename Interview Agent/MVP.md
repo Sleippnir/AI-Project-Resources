@@ -25,8 +25,8 @@
 
    **Tasks**
 * Create repo & base README.
-* Add backend skeleton (FastAPI/Flask).
-* Add frontend skeleton (React/Vue).
+* Add backend skeleton.
+* Add frontend skeleton.
 * Add Dockerfile for backend + frontend.
 * Add docker-compose.yml for local run.
 * Document environment variables & secrets.
