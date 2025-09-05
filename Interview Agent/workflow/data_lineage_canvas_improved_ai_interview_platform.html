@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprehensive Data Lineage Canvas: AI Interview Platform (Improved)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: 'Inter', sans-serif; }
+    th, td { vertical-align: top; }
+    td[contenteditable="true"]:focus { outline: 2px solid #3b82f6; background-color: #eff6ff; border-radius: 4px; }
+    td[contenteditable="true"][data-placeholder]:empty:before { content: attr(data-placeholder); color: #9ca3af; }
+    thead th { position: sticky; top: 0; z-index: 1; background: #f9fafb; }
+    @media print {
+      @page { size: A3 landscape; margin: 12mm; }
+      .no-print { display: none !important; }
+      body { background: #fff !important; }
+      table { font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <!-- Header / Legend -->
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Comprehensive Data Lineage Canvas</h1>
+            <p class="mt-2 text-gray-600">AI Interview Platform – detailed, step-by-step data flow.</p>
+          </div>
+          <!-- Toolbar -->
+          <div class="no-print flex flex-wrap gap-2">
+            <button id="saveBtn" class="px-3 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">Save</button>
+            <button id="loadBtn" class="px-3 py-2 rounded-xl bg-slate-600 text-white text-xs font-semibold hover:bg-slate-700">Load</button>
+            <button id="exportJsonBtn" class="px-3 py-2 rounded-xl bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700">Export JSON</button>
+            <button id="exportCsvBtn" class="px-3 py-2 rounded-xl bg-teal-600 text-white text-xs font-semibold hover:bg-teal-700">Export CSV</button>
+            <button onclick="window.print()" class="px-3 py-2 rounded-xl bg-amber-600 text-white text-xs font-semibold hover:bg-amber-700">Print</button>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs" aria-label="Legend">
+          <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-slate-500 mr-2"></span>Backend / Orchestrator</div>
+          <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-indigo-500 mr-2"></span>Data at Rest</div>
+          <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-rose-500 mr-2"></span>Cache / In‑Memory</div>
+          <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-500 mr-2"></span>AI / LLM Service</div>
+          <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-teal-500 mr-2"></span>Frontend / Client</div>
+          <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-gray-500 mr-2"></span>User / Role</div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto" role="region" aria-label="Data lineage table wrapper">
+        <table class="w-full text-sm" id="lineage-table" role="table" aria-label="Comprehensive data lineage table">
+          <thead class="bg-gray-50" role="rowgroup">
+            <tr role="row">
+              <th class="p-4 font-semibold text-left text-gray-600 uppercase tracking-wider" scope="col">Data Object</th>
+              <th class="p-4 font-semibold text-left text-gray-600 uppercase tracking-wider" scope="col">Source / Creation Point (User Story)</th>
+              <th class="p-4 font-semibold text-left text-gray-600 uppercase tracking-wider" scope="col">Transformation / Processing</th>
+              <th class="p-4 font-semibold text-left text-gray-600 uppercase tracking-wider" scope="col">Storage Location(s)</th>
+              <th class="p-4 font-semibold text-left text-gray-600 uppercase tracking-wider" scope="col">Destination / Usage Point</th>
+              <th class="p-4 font-semibold text-left text-gray-600 uppercase tracking-wider" scope="col" aria-label="Row actions"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200" role="rowgroup">
+            <!-- Manager Flow Section -->
+            <tr class="bg-blue-50 section-header" role="row"><td colspan="6" class="p-3 font-semibold text-blue-800">Manager &amp; Setup Flow</td></tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" data-placeholder="Data object" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Job Role Definition</code></td>
+              <td class="p-4" contenteditable="true" data-placeholder="Describe the source/actor" tabindex="0"><span class="font-semibold text-gray-600">Manager</span> enters job title &amp; description into dashboard form.</td>
+              <td class="p-4" contenteditable="true" data-placeholder="Describe processing" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> validates input and sets status to 'PENDING_REVIEW'.</td>
+              <td class="p-4" contenteditable="true" data-placeholder="Where is it stored?" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Stores definition text and status.</td>
+              <td class="p-4" contenteditable="true" data-placeholder="How is it used?" tabindex="0">Data object appears in the <span class="font-semibold text-gray-600">HR</span> compliance queue.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Suggested Questions</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Manager</span> selects an approved JD to build an interview.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> takes JD embedding and queries <span class="font-semibold text-indigo-600">pgvector</span> for top N similar approved questions.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">Ephemeral:</span> List of question objects held in memory.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-teal-600">Frontend:</span> Displayed to <span class="font-semibold text-gray-600">Manager</span> as a starting point.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Custom Interview Question</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Manager</span> writes a new question for a specific role.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> validates and adds to the question bank with status 'PENDING_REVIEW'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Stores question text.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Appears in <span class="font-semibold text-gray-600">HR</span> queue for approval.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">RAG-Generated Questions</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Manager</span> requests AI-generated questions for an approved role.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> triggers <span class="font-semibold text-amber-600">RAG System</span>, which uses role definition and existing questions to generate new ones.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">Ephemeral:</span> Held in memory for manager review.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-teal-600">Frontend:</span> Displayed to <span class="font-semibold text-gray-600">Manager</span> for approval/rejection. Approved questions go to HR queue.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="add-row-control" data-section="manager" role="row">
+              <td colspan="6" class="p-2 text-center">
+                <button class="add-row-btn w-full text-blue-600 hover:bg-blue-50 rounded-md p-2 text-xs font-semibold">+ Add Row to Manager Flow</button>
+              </td>
+            </tr>
+
+            <!-- HR Flow Section -->
+            <tr class="bg-red-50 section-header" role="row"><td colspan="6" class="p-3 font-semibold text-red-800">HR &amp; Compliance Flow</td></tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">JD Approval Decision</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">HR</span> reviews a pending Job Role Definition and clicks 'Approve' or 'Reject'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> updates the role's status and logs the action for audit trail.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Role status is updated to 'APPROVED'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend Job:</span> Triggers embedding generation for the approved role.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Question Approval Decision</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">HR</span> reviews a pending question and clicks 'Approve' or 'Reject'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> updates the question's status and logs the action.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Question status is updated to 'APPROVED'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend Job:</span> Triggers embedding generation for the approved question.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">HR-Sourced Question</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">HR</span> enters a new, pre-approved question directly into the system.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> validates and adds to question bank with status 'APPROVED'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Stores question text.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend Job:</span> Triggers embedding generation.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Candidate CV</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">HR</span> attaches a candidate's CV (PDF/DOCX) to a finalized JD.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">1. <span class="font-semibold text-slate-600">Backend</span> uploads the raw file.<br>2. A <span class="font-semibold text-slate-600">Supabase Edge Function</span> triggers on upload, parses the file, and extracts searchable text/JSON.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">Supabase Storage:</span> Stores the original file.<br><span class="font-semibold text-indigo-600">Supabase PostgreSQL:</span> Stores the file path and the extracted, searchable JSON content.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Manager/HR</span> view the original file. <span class="font-semibold text-slate-600">Backend</span> can query the JSON for filtering/matching.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Invite Token</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">HR</span> finalizes the candidate-JD link and clicks "Send Invite".</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> generates a unique token and triggers an email service.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Stores token, its status ('PENDING'), and associated interview ID.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Candidate:</span> Receives email with unique interview link.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="add-row-control" data-section="hr" role="row">
+              <td colspan="6" class="p-2 text-center">
+                <button class="add-row-btn w-full text-red-600 hover:bg-red-50 rounded-md p-2 text-xs font-semibold">+ Add Row to HR Flow</button>
+              </td>
+            </tr>
+
+            <!-- System & AI Flow -->
+            <tr class="bg-purple-50 section-header" role="row"><td colspan="6" class="p-3 font-semibold text-purple-800">System &amp; AI Flow</td></tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Initial Interview Context</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0">System action, triggered when a candidate starts an interview.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> retrieves all related data (JD, CV JSON, ordered questions, etc.) from <span class="font-semibold text-indigo-600">PostgreSQL</span>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">Redis:</span> Full context is loaded into the cache for the session.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Used by the <span class="font-semibold text-slate-600">Backend</span> to initiate the first question round.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Live Round Context Prompt</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0">System action, for every turn within a question round.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> assembles prompt: Persona + JD/CV sections + current question + current round's chat history.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Read from <span class="font-semibold text-rose-600">Redis Cache</span>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-amber-600">Interviewer LLM API:</span> Sent to generate the next conversational turn.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Completed Question Chunk</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-amber-600">Interviewer LLM</span> returns a response with { "round": "complete" }.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> takes the conversation history for that round from <span class="font-semibold text-rose-600">Redis</span> and appends it to the main transcript. Then clears the conversational context.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Appended to the growing interview transcript record.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Used by the <span class="font-semibold text-slate-600">Backend</span> to initiate the next question round.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Finalized Transcript &amp; Token Invalidation</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-amber-600">Interviewer LLM</span> returns { "round": "final" } after the candidate ends the interaction.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> appends the final chunk, retrieves the full transcript from <span class="font-semibold text-indigo-600">PostgreSQL</span>, and updates the invite token's status to 'USED'.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> The interview record is marked complete and the token is invalidated.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Triggers the asynchronous Proctor Evaluation step.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Proctor Evaluation Prompt</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0">System action, triggered after transcript finalization.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> creates a prompt: Proctor Persona + JD + CV + Full Transcript + Evaluation Rubric.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Read from <span class="font-semibold text-indigo-600">PostgreSQL</span>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-amber-600">3× Proctor LLM APIs:</span> Sent for parallel, independent evaluation.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Structured Proctor Response</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0">Output from each individual <span class="font-semibold text-amber-600">Proctor LLM API</span>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> receives three independent JSON objects with scores and reasoning.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">Ephemeral/In‑Memory</span> while awaiting aggregation.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Input for the <span class="font-semibold text-slate-600">Backend Aggregation Service</span>.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="add-row-control" data-section="system" role="row">
+              <td colspan="6" class="p-2 text-center">
+                <button class="add-row-btn w-full text-purple-600 hover:bg-purple-50 rounded-md p-2 text-xs font-semibold">+ Add Row to System Flow</button>
+              </td>
+            </tr>
+
+            <!-- Candidate Flow Section -->
+            <tr class="bg-green-50 section-header" role="row"><td colspan="6" class="p-3 font-semibold text-green-800">Candidate Flow</td></tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Candidate Preliminary Info</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Candidate</span> enters Name/Email after following invite link.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> validates input and associates with the interview record.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL:</span> Stored in candidate/interview record.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Used to label the final report and for communication.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Session JWT</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-gray-600">Candidate</span> submits preliminary info.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> validates the invite token and issues a short‑lived JSON Web Token.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">Ephemeral:</span> Stored in browser memory.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend API Gateway:</span> Used to authorize subsequent requests for this session.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">LLM Audio Output</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-amber-600">Interviewer LLM</span> generates welcome message, questions, or thank you message.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> sends text to a <span class="font-semibold text-amber-600">TTS API</span>, which returns an audio stream.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">In‑Memory/Ephemeral:</span> Streamed directly to the client.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-teal-600">Frontend:</span> Played through the candidate's speakers.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Candidate Audio Stream</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-teal-600">Browser</span> captures microphone audio via <strong>WebRTC API</strong> when candidate speaks.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Streamed to <span class="font-semibold text-slate-600">Backend</span>, which chunks it and forwards to <span class="font-semibold text-amber-600">STT API</span>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">In‑Memory/Ephemeral</span> during transit.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Primary output is the <code>Live Transcript Text</code>.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Live Transcript Text</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0">Output of the <span class="font-semibold text-amber-600">STT API</span> (can be an answer or a question from the candidate).</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> appends the text to the conversation history.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-rose-600">Redis:</span> Appended to the "Chunk Store" for the active session.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-teal-600">Frontend UI</span> (displayed in real‑time) and <span class="font-semibold text-amber-600">Interviewer LLM</span> (as context).</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="bg-gray-50" role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Final Interview Transcript</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> assembles all conversation chunks from Redis when interview ends.</td>
+              <td class="p-4" contenteditable="true" tabindex="0">Cleaned, formatted with speaker labels, and prepared for evaluation.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL</span></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-amber-600">Proctor LLMs:</span> Sent for final evaluation. Also available for <span class="font-semibold text-gray-600">HR</span> to view directly.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr role="row">
+              <td class="p-4 font-medium" contenteditable="true" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">Structured Report</code></td>
+              <td class="p-4" contenteditable="true" tabindex="0">Created by the <span class="font-semibold text-slate-600">Backend Aggregation Service</span>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-slate-600">Backend</span> aggregates the three <code>Structured Proctor Responses</code>, averages scores, combines notes, and <strong>stores the final report</strong>.</td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-indigo-600">PostgreSQL</span></td>
+              <td class="p-4" contenteditable="true" tabindex="0"><span class="font-semibold text-teal-600">Frontend Dashboard</span> for <span class="font-semibold text-gray-600">Manager/HR</span>.</td>
+              <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+            </tr>
+            <tr class="add-row-control" data-section="candidate" role="row">
+              <td colspan="6" class="p-2 text-center">
+                <button class="add-row-btn w-full text-green-600 hover:bg-green-50 rounded-md p-2 text-xs font-semibold">+ Add Row to Candidate Flow</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const table = document.getElementById('lineage-table');
+      const STORAGE_KEY = 'lineageCanvasV1';
+
+      const rowTemplate = `
+        <td class="p-4 font-medium text-gray-900" contenteditable="true" data-placeholder="Data object" tabindex="0"><code class="bg-gray-100 px-2 py-1 rounded-md">New Data Object</code></td>
+        <td class="p-4" contenteditable="true" data-placeholder="Describe the source/actor" tabindex="0"></td>
+        <td class="p-4" contenteditable="true" data-placeholder="Describe processing" tabindex="0"></td>
+        <td class="p-4" contenteditable="true" data-placeholder="Where is it stored?" tabindex="0"></td>
+        <td class="p-4" contenteditable="true" data-placeholder="How is it used?" tabindex="0"></td>
+        <td class="p-4 text-center"><button class="delete-row-btn text-gray-400 hover:text-red-500" aria-label="Delete row">&times;</button></td>
+      `;
+
+      // Basic sanitizer to strip scripts and on* attributes
+      function sanitizeHTML(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        // remove script/style
+        doc.querySelectorAll('script, style').forEach(n => n.remove());
+        // remove event handler attributes
+        doc.querySelectorAll('*').forEach(el => {
+          [...el.attributes].forEach(attr => {
+            if (/^on[a-z]+/i.test(attr.name)) el.removeAttribute(attr.name);
+          });
+        });
+        return doc.body.innerHTML;
+      }
+
+      document.addEventListener('click', (e) => {
+        // Delete a row
+        if (e.target.classList.contains('delete-row-btn')) {
+          const row = e.target.closest('tr');
+          const isHeaderOrControl = row.classList.contains('section-header') || row.classList.contains('add-row-control');
+          if (!isHeaderOrControl) row.remove();
+        }
+
+        // Add a new row in the matching section
+        if (e.target.classList.contains('add-row-btn')) {
+          const controlRow = e.target.closest('.add-row-control');
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = rowTemplate;
+
+          // Alternate row colors for readability (copy previous row hue)
+          const prev = controlRow.previousElementSibling;
+          if (prev && prev.classList.contains('bg-gray-50')) {
+            // switch off
+          } else {
+            newRow.classList.add('bg-gray-50');
+          }
+          controlRow.parentNode.insertBefore(newRow, controlRow);
+        }
+      });
+
+      // Toolbar actions
+      const saveBtn = document.getElementById('saveBtn');
+      const loadBtn = document.getElementById('loadBtn');
+      const exportJsonBtn = document.getElementById('exportJsonBtn');
+      const exportCsvBtn = document.getElementById('exportCsvBtn');
+
+      saveBtn?.addEventListener('click', () => {
+        const html = sanitizeHTML(document.querySelector('tbody').innerHTML);
+        localStorage.setItem(STORAGE_KEY, html);
+        toast('Saved to browser');
+      });
+
+      loadBtn?.addEventListener('click', () => {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          document.querySelector('tbody').innerHTML = saved;
+          toast('Loaded from browser');
+        } else {
+          toast('Nothing saved yet');
+        }
+      });
+
+      // Ctrl/Cmd+S to save
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+          e.preventDefault();
+          saveBtn.click();
+        }
+      });
+
+      exportJsonBtn?.addEventListener('click', () => {
+        const data = extractRows();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        downloadBlob(blob, 'data-lineage.json');
+      });
+
+      exportCsvBtn?.addEventListener('click', () => {
+        const data = extractRows();
+        const header = ['section','data_object','source','processing','storage','destination'];
+        const rows = [header.join(',')].concat(
+          data.map(r => header.map(k => csvEscape(r[k] ?? '')).join(','))
+        );
+        const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+        downloadBlob(blob, 'data-lineage.csv');
+      });
+
+      function extractRows() {
+        const out = [];
+        const tbody = document.querySelector('tbody');
+        let currentSection = '';
+        tbody.querySelectorAll('tr').forEach(tr => {
+          if (tr.classList.contains('section-header')) {
+            currentSection = tr.textContent.trim();
+            return;
+          }
+          if (tr.classList.contains('add-row-control')) return;
+          const tds = tr.querySelectorAll(':scope > td');
+          if (tds.length === 6) {
+            out.push({
+              section: currentSection,
+              data_object: tds[0].innerText.trim(),
+              source: tds[1].innerText.trim(),
+              processing: tds[2].innerText.trim(),
+              storage: tds[3].innerText.trim(),
+              destination: tds[4].innerText.trim(),
+            });
+          }
+        });
+        return out;
+      }
+
+      function csvEscape(s) {
+        if (s.includes('"') || s.includes(',') || s.includes('\n')) {
+          return '"' + s.replaceAll('"', '""') + '"';
+        }
+        return s;
+      }
+
+      function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      }
+
+      function toast(msg) {
+        const div = document.createElement('div');
+        div.textContent = msg;
+        div.className = 'no-print fixed bottom-4 right-4 bg-gray-900 text-white text-xs px-3 py-2 rounded-lg shadow-lg';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 1500);
+      }
+    })();
+  </script>
+</body>
+</html>
