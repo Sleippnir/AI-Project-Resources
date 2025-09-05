@@ -21,7 +21,8 @@
 * Repo contains backend, frontend, infra folders.
 * Dockerfile + docker-compose run end-to-end locally.
 * Environment variables documented.
-  **Tasks**
+
+   **Tasks**
 * Create repo & base README.
 * Add backend skeleton (FastAPI/Flask).
 * Add frontend skeleton (React/Vue).
@@ -39,6 +40,7 @@
 
 * Role stored in DB with title + description.
 * Status = draft (no approval needed).
+
   **Tasks**
 * DB: `roles` table migration.
 * Backend: endpoint to create role.
@@ -50,7 +52,8 @@
 
 * DB contains seed sets (5–10 per role).
 * Manager can select from seed bank.
-  **Tasks**
+
+   **Tasks**
 * Import JSON of seed questions.
 * DB: `questions` table migration.
 * Backend: API to fetch questions by role.
@@ -63,7 +66,8 @@
 * Kaggle set imported into DB.
 * Questions tagged by role & difficulty.
 * Manager can browse suggested set.
-  **Tasks**
+
+   **Tasks**
 * Clean Kaggle dataset.
 * DB: import pipeline.
 * Backend: query suggested questions.
@@ -79,7 +83,8 @@
 * Prompt defines tone, style, follow-up rules.
 * Role modifiers available.
 * Stored in DB or JSON seed.
-  **Tasks**
+
+   **Tasks**
 * Draft baseline interviewer persona.
 * Draft role-specific modifiers.
 * Seed DB with v0.
@@ -91,7 +96,8 @@
 * Rubric with 1–5 scale.
 * JSON schema enforced.
 * Evaluator returns structured JSON.
-  **Tasks**
+
+   **Tasks**
 * Draft rubric.
 * Draft JSON schema.
 * Test with LLM → validate stability.
@@ -102,7 +108,8 @@
 
 * Interview rows log `prompt_versions_used`.
 * Versions immutable during session.
-  **Tasks**
+
+   **Tasks**
 * DB migration: add `prompt_versions_used`.
 * Backend: populate field on interview creation.
 
@@ -116,6 +123,7 @@
 
 * Token required.
 * Expired/invalid rejected.
+
   **Tasks**
 * DB: `invite_tokens` table.
 * Backend: generate & validate token.
@@ -127,7 +135,8 @@
 
 * Audio → STT → text.
 * Transcript chunk stored.
-  **Tasks**
+
+   **Tasks**
 * Integrate STT API.
 * Backend: STT pipeline.
 * DB: save transcript chunk.
@@ -139,7 +148,8 @@
 
 * LLM uses interviewer persona.
 * Pulls next question from DB.
-  **Tasks**
+
+   **Tasks**
 * Backend: orchestrate LLM call.
 * DB: log interviewer response.
 
@@ -148,6 +158,7 @@
 **Acceptance Criteria**
 
 * LLM → TTS → audio out.
+
   **Tasks**
 * Integrate TTS API.
 * Frontend: audio playback.
@@ -157,7 +168,8 @@
 **Acceptance Criteria**
 
 * Text stored like STT.
-  **Tasks**
+
+   **Tasks**
 * Frontend: textbox input.
 * Backend: same API as STT.
 
@@ -171,7 +183,8 @@
 
 * Candidate turn saved.
 * Interviewer turn generated.
-  **Tasks**
+
+   **Tasks**
 * Backend: orchestration service.
 * Logging for each turn.
 
@@ -180,6 +193,7 @@
 **Acceptance Criteria**
 
 * Chunks have round, speaker, text.
+
   **Tasks**
 * DB: `interview_chunks` migration.
 * Backend: save per turn.
@@ -190,7 +204,8 @@
 
 * Transcript stored.
 * Status updated = finalized.
-  **Tasks**
+
+   **Tasks**
 * Backend: finalize endpoint.
 * DB: `transcripts` table.
 
@@ -204,6 +219,7 @@
 
 * JSON evaluation returned.
 * Stored in DB.
+
   **Tasks**
 * Backend: evaluator call.
 * DB: `evaluation_reports` table.
@@ -213,7 +229,8 @@
 **Acceptance Criteria**
 
 * Transcript + evaluation in one view.
-  **Tasks**
+
+   **Tasks**
 * Backend: fetch combined.
 * Frontend: render.
 
@@ -226,7 +243,8 @@
 **Acceptance Criteria**
 
 * Table view with candidate name, role, date.
-  **Tasks**
+
+   **Tasks**
 * Backend: API for interview list.
 * Frontend: table component.
 
@@ -236,6 +254,7 @@
 
 * Full transcript displayed.
 * Evaluation JSON summarized.
+
   **Tasks**
 * Backend: detail API.
 * Frontend: transcript view.
@@ -250,6 +269,7 @@
 **Acceptance Criteria**
 
 * Includes system overview + demo script.
+
   **Tasks**
 * Draft slides.
 * Review as team.
@@ -259,6 +279,7 @@
 **Acceptance Criteria**
 
 * Backend + frontend dockerized.
+
   **Tasks**
 * Dockerfile backend.
 * Dockerfile frontend.
@@ -270,7 +291,8 @@
 
 * Candidate interview runs start to finish.
 * Manager view accessible.
-  **Tasks**
+
+   **Tasks**
 * Schedule dry run.
 * Test candidate flow.
 * Test manager flow.
