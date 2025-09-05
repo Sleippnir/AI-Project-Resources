@@ -5,9 +5,10 @@
 * **Core demo:** Run a single voice (or text fallback) interview → produce transcript → generate evaluation → show results to manager.
 * **Excludes:** HR approval workflows, multiple proctor models, RAG question generation, avatars, advanced dashboards, Redis.
 
+
 ---
 
-# 🗂️ MVP Backlog (User Stories)
+# 🗂️ MVP Backlog (with subtasks)
 
 ---
 
@@ -21,9 +22,12 @@
 * Dockerfile + docker-compose run end-to-end locally.
 * Environment variables documented.
   **Tasks**
-* Initialize repo.
-* Add Docker + compose.
-* Write setup docs.
+* Create repo & base README.
+* Add backend skeleton (FastAPI/Flask).
+* Add frontend skeleton (React/Vue).
+* Add Dockerfile for backend + frontend.
+* Add docker-compose.yml for local run.
+* Document environment variables & secrets.
 
 ---
 
@@ -35,6 +39,10 @@
 
 * Role stored in DB with title + description.
 * Status = draft (no approval needed).
+  **Tasks**
+* DB: `roles` table migration.
+* Backend: endpoint to create role.
+* Frontend: simple form for role creation.
 
 **US-011 — Seed Question Bank**
 **As a manager**, I want predefined questions per role **so that** I can use them to build interviews.
@@ -42,6 +50,11 @@
 
 * DB contains seed sets (5–10 per role).
 * Manager can select from seed bank.
+  **Tasks**
+* Import JSON of seed questions.
+* DB: `questions` table migration.
+* Backend: API to fetch questions by role.
+* Frontend: list UI to select questions.
 
 **US-012 (Optional) — Kaggle Dataset Preload**
 **As a system**, I want to preload Kaggle questions/answers **so that** suggested questions appear during interview creation.
@@ -49,7 +62,11 @@
 
 * Kaggle set imported into DB.
 * Questions tagged by role & difficulty.
-* Manager can browse/suggested set.
+* Manager can browse suggested set.
+  **Tasks**
+* Clean Kaggle dataset.
+* DB: import pipeline.
+* Backend: query suggested questions.
 
 ---
 
@@ -60,31 +77,34 @@
 **Acceptance Criteria**
 
 * Prompt defines tone, style, follow-up rules.
-* Role modifiers (ML Engineer, Data Scientist, etc.).
-* Stored as DB seed or JSON file.
+* Role modifiers available.
+* Stored in DB or JSON seed.
   **Tasks**
-* Draft core persona text.
-* Draft role-specific overlays.
-* Seed DB with v0 baseline.
+* Draft baseline interviewer persona.
+* Draft role-specific modifiers.
+* Seed DB with v0.
 
 **US-021 — Evaluator Persona Prompt**
 **As a system designer**, I want an evaluator prompt + rubric **so that** candidate responses can be scored consistently.
 **Acceptance Criteria**
 
-* Rubric with criteria + 1–5 scale.
-* JSON schema for output.
-* Evaluator reliably returns structured JSON.
+* Rubric with 1–5 scale.
+* JSON schema enforced.
+* Evaluator returns structured JSON.
   **Tasks**
-* Draft rubric text.
-* Draft schema.
-* Validate via test calls.
+* Draft rubric.
+* Draft JSON schema.
+* Test with LLM → validate stability.
 
 **US-022 — Version Pinning**
-**As a system**, I want to pin prompt/template versions **so that** interviews are reproducible.
+**As a system**, I want prompt/template versions pinned **so that** interviews are reproducible.
 **Acceptance Criteria**
 
-* Interviews store prompt/template version (v0).
-* Prompts/templates not mutable during session.
+* Interview rows log `prompt_versions_used`.
+* Versions immutable during session.
+  **Tasks**
+* DB migration: add `prompt_versions_used`.
+* Backend: populate field on interview creation.
 
 ---
 
@@ -94,61 +114,85 @@
 **As a candidate**, I want to join via invite token **so that** I can securely start the interview.
 **Acceptance Criteria**
 
-* Token required to start interview.
-* Invalid/expired token rejected.
+* Token required.
+* Expired/invalid rejected.
+  **Tasks**
+* DB: `invite_tokens` table.
+* Backend: generate & validate token.
+* Frontend: token entry page.
 
 **US-031 — Candidate Answers by Voice**
 **As a candidate**, I want to answer via microphone **so that** my spoken responses are transcribed.
 **Acceptance Criteria**
 
 * Audio → STT → text.
-* Transcript stored chunk by chunk.
+* Transcript chunk stored.
+  **Tasks**
+* Integrate STT API.
+* Backend: STT pipeline.
+* DB: save transcript chunk.
+* Frontend: mic input.
 
 **US-032 — Interviewer LLM Responds**
-**As a candidate**, I want the interviewer to ask questions naturally **so that** the interview feels realistic.
+**As a candidate**, I want natural interviewer prompts **so that** interview feels real.
 **Acceptance Criteria**
 
-* LLM uses interviewer persona prompt.
-* Next question generated or pulled from seed bank.
+* LLM uses interviewer persona.
+* Pulls next question from DB.
+  **Tasks**
+* Backend: orchestrate LLM call.
+* DB: log interviewer response.
 
 **US-033 — TTS Playback**
-**As a candidate**, I want interviewer speech in audio **so that** the experience is voice-based.
+**As a candidate**, I want to hear interviewer questions **so that** it’s voice-based.
 **Acceptance Criteria**
 
-* LLM output → TTS → audio stream.
+* LLM → TTS → audio out.
+  **Tasks**
+* Integrate TTS API.
+* Frontend: audio playback.
 
 **US-034 — Text Input Fallback**
-**As a candidate**, I want a textbox fallback **so that** I can continue if mic fails.
+**As a candidate**, I want textbox fallback **so that** I can continue if mic fails.
 **Acceptance Criteria**
 
-* Candidate input accepted via text.
-* Stored identically to STT output.
+* Text stored like STT.
+  **Tasks**
+* Frontend: textbox input.
+* Backend: same API as STT.
 
 ---
 
 ## Epic 5: Orchestration
 
 **US-040 — Orchestrate Turns**
-**As the system**, I want to manage turns **so that** candidate and interviewer exchange Q\&A seamlessly.
+**As the system**, I want to manage turns **so that** Q\&A flows correctly.
 **Acceptance Criteria**
 
-* Candidate turn stored in DB.
-* LLM interviewer responds → next question.
-* Stored in DB.
+* Candidate turn saved.
+* Interviewer turn generated.
+  **Tasks**
+* Backend: orchestration service.
+* Logging for each turn.
 
 **US-041 — Store Interview Chunks**
-**As the system**, I want to persist chunks **so that** the transcript is reconstructable.
+**As the system**, I want to persist chunks **so that** transcript can be built.
 **Acceptance Criteria**
 
-* Each chunk has speaker, text, round index.
-* Stored in Postgres.
+* Chunks have round, speaker, text.
+  **Tasks**
+* DB: `interview_chunks` migration.
+* Backend: save per turn.
 
 **US-042 — Finalize Interview**
-**As the system**, I want to aggregate chunks **so that** a clean transcript is available.
+**As the system**, I want transcript aggregated **so that** a clean version exists.
 **Acceptance Criteria**
 
-* Transcript concatenated and stored.
-* Status = finalized.
+* Transcript stored.
+* Status updated = finalized.
+  **Tasks**
+* Backend: finalize endpoint.
+* DB: `transcripts` table.
 
 ---
 
@@ -158,14 +202,20 @@
 **As the system**, I want to send transcript to evaluator **so that** structured scoring is generated.
 **Acceptance Criteria**
 
-* LLM produces JSON evaluation.
-* Report stored in DB.
+* JSON evaluation returned.
+* Stored in DB.
+  **Tasks**
+* Backend: evaluator call.
+* DB: `evaluation_reports` table.
 
 **US-051 — Attach Evaluation to Interview**
 **As a manager**, I want transcript + evaluation together **so that** I can review easily.
 **Acceptance Criteria**
 
-* Transcript + evaluation report accessible in one view.
+* Transcript + evaluation in one view.
+  **Tasks**
+* Backend: fetch combined.
+* Frontend: render.
 
 ---
 
@@ -175,14 +225,21 @@
 **As a manager**, I want a list of past interviews **so that** I can navigate results.
 **Acceptance Criteria**
 
-* Table view of candidate name, role, date.
+* Table view with candidate name, role, date.
+  **Tasks**
+* Backend: API for interview list.
+* Frontend: table component.
 
 **US-061 — Transcript & Evaluation View**
-**As a manager**, I want a detail page **so that** I can review transcript + evaluation.
+**As a manager**, I want detail page **so that** I can review transcript + evaluation.
 **Acceptance Criteria**
 
 * Full transcript displayed.
 * Evaluation JSON summarized.
+  **Tasks**
+* Backend: detail API.
+* Frontend: transcript view.
+* Frontend: evaluation summary.
 
 ---
 
@@ -192,20 +249,32 @@
 **As a team**, I want slides **so that** we can present MVP clearly.
 **Acceptance Criteria**
 
-* Includes system overview, demo script.
+* Includes system overview + demo script.
+  **Tasks**
+* Draft slides.
+* Review as team.
 
 **US-071 — Containerization**
 **As a team**, I want Dockerized services **so that** the app runs on any machine.
 **Acceptance Criteria**
 
 * Backend + frontend dockerized.
+  **Tasks**
+* Dockerfile backend.
+* Dockerfile frontend.
+* Compose integration.
 
 **US-072 — Dry-Run Demo**
 **As a team**, I want a practice run **so that** Demo Day is smooth.
 **Acceptance Criteria**
 
-* Candidate session runs start to finish.
+* Candidate interview runs start to finish.
 * Manager view accessible.
+  **Tasks**
+* Schedule dry run.
+* Test candidate flow.
+* Test manager flow.
+
 
 ---
 
