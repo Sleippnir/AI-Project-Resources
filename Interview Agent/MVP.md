@@ -1,85 +1,115 @@
-Then skip Redis.
 
-Here’s a lean MVP scoped to **one concurrent interview** for the demo.
 
-# Minimal architecture (no Redis)
+# 🎯 MVP Scope
 
-* **Client (web)**: candidate mic → STT → backend; audio out from TTS.
-* **Backend** (single process/service):
+* **Core demo:** Run a single voice (or text fallback) interview → produce transcript → generate evaluation → show results to manager.
+* **Excludes:** HR approval workflows, multiple proctor models, RAG question generation, avatars, advanced dashboards, Redis.
 
-  * Stateless endpoints calling STT/TTS/LLM.
-  * Stores/reads everything from **Supabase (Postgres + Storage)**.
-* **Supabase**:
+---
 
-  * Tables: `candidates`, `interviews`, `interview_chunks`, `interview_transcripts`, `evaluation_reports`, `questions` (seed), `job_roles` (optional).
-  * Storage: CVs optional (can defer).
+# 📂 MVP Epics and Stories
 
-## Flow (text-first, voice optional)
+### Epic 1: Repository & Environment Setup
 
-1. Manager creates **role text** + picks **seed questions** (or paste a short list).
-2. Candidate opens unique link (invite token).
-3. Backend starts interview:
+* **US-001**: As a developer, I want a GitHub repo with modular structure so we can collaborate effectively.
 
-   * Create `interviews` row (`status='in_progress'`).
-   * For each question:
+  * Task: Initialize repo with backend, frontend, infra folders.
+  * Task: Add Dockerfile + docker-compose for local run.
+  * Task: Document environment variables and setup.
 
-     * (voice) STT → text, else text input.
-     * Save candidate turn to `interview_chunks`.
-     * Call LLM interviewer → next prompt/question.
-     * Save interviewer turn to `interview_chunks`.
-4. Finalize:
+---
 
-   * Concatenate chunks → `interview_transcripts`.
-   * Call **single** evaluator LLM → summary scores → `evaluation_reports`.
-5. Manager reviews transcript + evaluation in a barebones view.
+### Epic 2: Candidate Interview Flow
 
-## Demo-grade API surface
+* **US-010**: As a candidate, I want to join an interview via a unique link so I can authenticate easily.
 
-* `POST /interviews/start` → `{interview_id}`
-* `POST /interviews/{id}/candidate-turn` → `{text}` (or audio URL→STT inside)
-* `POST /interviews/{id}/next` → returns interviewer text (and optional SSML for TTS)
-* `POST /interviews/{id}/finalize` → builds transcript, runs eval
-* `GET /interviews/{id}/report` → transcript + evaluation JSON
+  * Task: Backend endpoint to create invite token.
+  * Task: Candidate UI page to input token/start.
+* **US-011**: As a candidate, I want to speak my answers so the system transcribes them.
 
-## DB simplifications
+  * Task: Integrate STT API (Whisper or cloud).
+  * Task: Store transcript chunks in Postgres.
+* **US-012**: As a candidate, I want to hear the interviewer’s questions as natural voice.
 
-* Keep **static prompts/templates** in code for MVP (no version tables yet).
-* `interview_chunks(speaker, text, round, created_at)` is enough.
-* `evaluation_reports(report_json)` holds the single LLM evaluator output.
+  * Task: Integrate TTS API.
+  * Task: UI playback.
+* **US-013**: As a candidate, I want a fallback text input if audio fails.
 
-## Diagram (Mermaid)
+  * Task: Add simple textbox fallback in UI.
 
-```
-flowchart TD
-  A[Candidate Web] -->|audio/text| B[Backend Service]
-  B -->|STT (if audio)| STT[STT API]
-  B -->|LLM prompt| LLMi[Interviewer LLM]
-  B -->|TTS text| TTS[TTS API]
-  B <--> DB[(Supabase Postgres)]
-  B -->|finalize| EV[Evaluator LLM]
-  A <-- TTS audio / next question --- B
-```
+---
 
-## What to actually build this week
+### Epic 3: Manager Setup
 
-* **Happy-path UI**: single page for candidate; single page to view report.
-* **Endpoints** above (no websockets needed for single user).
-* **STT/TTS**: pick one vendor each; stream not required (polling ok).
-* **LLM**: one interviewer model; one evaluator model.
-* **Seed questions**: hardcode 8–12 per role in DB or a JSON file.
+* **US-020**: As a manager, I want to define a role with a set of questions so the AI can use them in an interview.
 
-## Demo script (tight)
+  * Task: Minimal role creation UI (title + JD text).
+  * Task: Seed questions DB with predefined sets (5–10 per role).
+  * Task: Backend: fetch questions by role.
 
-1. Manager: select role → “Start interview.”
-2. Candidate: answer 3–5 questions (voice or text).
-3. Click **Finalize** → show transcript + evaluation.
-4. Optional: download JSON report.
+---
 
-## Risks & mitigations
+### Epic 4: Orchestration & LLM
 
-* **Latency**: Avoid long chains per turn (keep prompts small, cap tokens).
-* **Audio edge-cases**: Provide a text input fallback on same screen.
-* **LLM variability**: Pin temperature low; keep interviewer prompts deterministic.
-* **Finalization failure**: Allow re-run of `finalize` idempotently.
+* **US-030**: As the system, I want to orchestrate Q\&A turns between candidate and interviewer LLM.
 
-If you want, I can generate a **checklist** (DoD) and a **Jira-ready backlog** from this scope.
+  * Task: Backend loop: candidate turn → store chunk → call interviewer LLM → return next question.
+  * Task: Store interviewer turns in Postgres.
+
+---
+
+### Epic 5: Transcript & Evaluation
+
+* **US-040**: As the system, I want to finalize an interview so the transcript is aggregated.
+
+  * Task: Concatenate chunks → store in transcripts table.
+* **US-041**: As a manager, I want an evaluation of the interview so I can assess the candidate.
+
+  * Task: Call evaluation LLM → structured JSON with scores + summary.
+  * Task: Store evaluation in `evaluation_reports`.
+
+---
+
+### Epic 6: Dashboard & Review
+
+* **US-050**: As a manager, I want to view the transcript and evaluation so I can make hiring decisions.
+
+  * Task: Manager UI: table of interviews.
+  * Task: Detail view: transcript + evaluation JSON.
+
+---
+
+### Epic 7: Demo Preparation
+
+* **US-060**: As the team, we want presentation slides to demo the MVP.
+
+  * Task: Prepare slides (system overview, demo flow).
+* **US-061**: As the team, we want the app containerized so it runs anywhere.
+
+  * Task: Dockerize backend + frontend.
+  * Task: Test deployment locally.
+
+---
+
+# 📋 Jira Board Structure
+
+**Epics:**
+
+* ENV Setup
+* Candidate Interview Flow
+* Manager Setup
+* Orchestration & LLM
+* Transcript & Evaluation
+* Dashboard & Review
+* Demo Prep
+
+**Story points guideline:**
+
+* Setup tasks: 1–2 points.
+* API/LLM integrations: 3–5 points.
+* UI screens: 2–4 points.
+* End-to-end finalization: 5 points.
+
+---
+
+Do you want me to also generate a **Jira importable CSV/JSON** file (with epics/stories/tasks in the right format) so your team can drop it straight into Jira?
