@@ -1,0 +1,23 @@
+id,section,actor,title,i_want,so_that
+US-001,Manager & Setup Flow,Manager,Job Role Definition – Manager,Job Role Definition,Data object appears in the HR compliance queue.
+US-002,Manager & Setup Flow,Manager,Suggested Questions – Manager,Suggested Questions,Frontend: Displayed to Manager as a starting point.
+US-003,Manager & Setup Flow,Manager,Custom Interview Question – Manager,Custom Interview Question,Appears in HR queue for approval.
+US-004,Manager & Setup Flow,Manager,RAG-Generated Questions – Manager,RAG-Generated Questions,Frontend: Displayed to Manager for approval/rejection. Approved questions go to HR queue.
+US-005,HR & Compliance Flow,HR/Compliance Officer,JD Approval Decision – HR,JD Approval Decision,Backend Job: Triggers embedding generation for the approved role.
+US-006,HR & Compliance Flow,HR/Compliance Officer,Question Approval Decision – HR,Question Approval Decision,Backend Job: Triggers embedding generation for the approved question.
+US-007,HR & Compliance Flow,HR/Compliance Officer,HR-Sourced Question – HR,HR-Sourced Question,Backend Job: Triggers embedding generation.
+US-008,HR & Compliance Flow,HR/Compliance Officer,Candidate CV – HR,Candidate CV,Manager/HR view the original file. Backend can query the JSON for filtering/matching.
+US-009,HR & Compliance Flow,HR/Compliance Officer,Invite Token – HR,Invite Token,Candidate: Receives email with unique interview link.
+US-010,System & AI Flow,Interview Orchestrator (system),Initial Interview Context – System,Initial Interview Context,Used by the Backend to initiate the first question round.
+US-011,System & AI Flow,Interview Orchestrator (system),Live Round Context Prompt – System,Live Round Context Prompt,Interviewer LLM API: Sent to generate the next conversational turn.
+US-012,System & AI Flow,Interview Orchestrator (system),Completed Question Chunk – System,Completed Question Chunk,Used by the Backend to initiate the next question round.
+US-013,System & AI Flow,Interview Orchestrator (system),Finalized Transcript & Token Invalidation – System,Finalized Transcript & Token Invalidation,Triggers the asynchronous Proctor Evaluation step.
+US-014,System & AI Flow,Interview Orchestrator (system),Proctor Evaluation Prompt – System,Proctor Evaluation Prompt,"3× Proctor LLM APIs: Sent for parallel, independent evaluation."
+US-015,System & AI Flow,Interview Orchestrator (system),Structured Proctor Response – System,Structured Proctor Response,Input for the Backend Aggregation Service.
+US-016,Candidate Flow,Candidate,Candidate Preliminary Info – Candidate Flow,Candidate Preliminary Info,Used to label the final report and for communication.
+US-017,Candidate Flow,Candidate,Session JWT – Candidate Flow,Session JWT,Backend API Gateway: Used to authorize subsequent requests for this session.
+US-018,Candidate Flow,Candidate,LLM Audio Output – Candidate Flow,LLM Audio Output,Frontend: Played through the candidate's speakers.
+US-019,Candidate Flow,Candidate,Candidate Audio Stream – Candidate Flow,Candidate Audio Stream,Primary output is the Live Transcript Text.
+US-020,Candidate Flow,Candidate,Live Transcript Text – Candidate Flow,Live Transcript Text,Frontend UI (displayed in real‑time) and Interviewer LLM (as context).
+US-021,Candidate Flow,Candidate,Final Interview Transcript – Candidate Flow,Final Interview Transcript,Proctor LLMs: Sent for final evaluation. Also available for HR to view directly.
+US-022,Candidate Flow,Candidate,Structured Report – Candidate Flow,Structured Report,Frontend Dashboard for Manager/HR.
