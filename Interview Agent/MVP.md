@@ -91,7 +91,7 @@
 
 ---
 
-# 📋 Jira Board Structure
+# 📋 Board Structure
 
 **Epics:**
 
@@ -110,6 +110,3 @@
 * UI screens: 2–4 points.
 * End-to-end finalization: 5 points.
 
----
-
-Do you want me to also generate a **Jira importable CSV/JSON** file (with epics/stories/tasks in the right format) so your team can drop it straight into Jira?
